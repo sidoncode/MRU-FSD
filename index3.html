@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Async/Await and Promises Example</title>
+</head>
+<body>
+    <h1>User Information</h1>
+    <div id="user-info">
+        <p>Loading user data...</p>
+    </div>
+
+    <script>
+        // Simulated API endpoint
+        const apiUrl = 'https://jsonplaceholder.typicode.com/users/1';
+
+        // Function to fetch user data using promises
+        function fetchUserDataWithPromise() {
+            return new Promise((resolve, reject) => {
+                fetch(apiUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch user data');
+                        }
+                        return response.json();
+                    })
+                    .then(data => resolve(data))
+                    .catch(error => reject(error));
+            });
+        }
+
+        // Function to fetch user data using async/await
+        async function fetchUserDataWithAsyncAwait() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+                return await response.json();
+            } catch (error) {
+                throw new Error(error.message);
+            }
+        }
+
+        // Display user data on the web page
+        async function displayUserData() {
+            try {
+                // Using promises
+                fetchUserDataWithPromise()
+                    .then(data => {
+                        document.getElementById('user-info').innerHTML = `
+                            <p>Name: ${data.name}</p>
+                            <p>Email: ${data.email}</p>
+                            <p>Phone: ${data.phone}</p>
+                        `;
+                    })
+                    .catch(error => {
+                        document.getElementById('user-info').innerText = 'Failed to fetch user data';
+                    });
+
+                // Using async/await
+                const userData = await fetchUserDataWithAsyncAwait();
+                document.getElementById('user-info').innerHTML = `
+                    <p>Name: ${userData.name}</p>
+                    <p>Email: ${userData.email}</p>
+                    <p>Phone: ${userData.phone}</p>
+                `;
+            } catch (error) {
+                document.getElementById('user-info').innerText = 'Failed to fetch user data';
+            }
+        }
+
+        displayUserData();
+    </script>
+</body>
+</html>

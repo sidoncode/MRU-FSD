@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Java Promises Examples</title>
+
+    </head>
+
+    <body>
+
+    </body>
+        <h1>
+            JavaScript Promises Examples
+        </h1>
+        <p id="message">Waiting for Promise</p>
+
+        <script>
+            function delay(ms){
+                return new Promise((resolve,reject) =>{
+                    setTimeout(() =>{
+                        // resolve("Promise resolved + " + ms + "millisecond")
+                        if(ms <1000){
+                            reject("Promises Rejected - less than 1 sec")
+                        }
+                        else{
+                            reject("Promises Rejected - more than 1 sec ")
+                        }
+                    },ms)
+                })
+            }
+            delay(2000).then((message) =>{
+                document.getElementById("message").innerText = message
+            }).catch((error) =>{
+                    document.getElementById("message").innerText = error
+            })
+        </script>
+    </body>
+</html>
